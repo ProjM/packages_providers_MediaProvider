@@ -5418,18 +5418,7 @@ public class MediaProvider extends ContentProvider {
                 final VolumeInfo vol = mStorageManager.getPrimaryPhysicalVolume();
                 if (vol != null) {
                     final StorageVolume actualVolume = mStorageManager.getPrimaryVolume();
-                    int volumeId = actualVolume.getFatVolumeId();
-
-                    // In case of a non-FAT filesystem, try to get the UUID
-                    if (volumeId == -1) {
-                        String uuid = actualVolume.getUuid();
-                        uuid = uuid.replace("-", "");
-                        if (uuid.length() > 8) {
-                            uuid = uuid.substring(0, 8);
-                        }
-                        volumeId = (int)Long.parseLong(uuid, 16);
-                        Log.e(TAG, "UUID: " + volumeId);
-                    }
+                    final int volumeId = actualVolume.getFatVolumeId();
 
                     // Must check for failure!
                     // If the volume is not (yet) mounted, this will create a new
